@@ -6,3 +6,60 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Profile {
+  id         Int          @id @default(autoincrement())
+  name       String       @db.VarChar(100)
+  bio        String       @db.VarChar(500)
+  links      Link[]
+  skills     Skill[]
+  experience Experience[]
+  projects   Project[]
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+}
+
+model Link {
+  id        Int      @id @default(autoincrement())
+  label     String   @db.VarChar(50)
+  url       String   @unique @db.VarChar(2048)
+  profileId Int
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Skill {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  category    String   @db.VarChar(50)
+  description String   @db.VarChar(500)
+  profileId   Int
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Experience {
+  id           Int       @id @default(autoincrement())
+  company      String    @db.VarChar(150)
+  position     String    @db.VarChar(150)
+  startDate    DateTime
+  endDate      DateTime?
+  achievements String[]
+  profileId    Int
+  profile      Profile   @relation(fields: [profileId], references: [id])
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  description String   @db.VarChar(500)
+  repoUrl     String   @unique @db.VarChar(2048)
+  profileId   Int
+  profile     Profile  @relation(fields: [profileId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
