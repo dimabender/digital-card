@@ -5,7 +5,8 @@ const prisma = new PrismaClient();
 async function main() {
   const profileData: Prisma.ProfileCreateInput = {
     name: 'Никита Кулаков',
-    bio: 'Fullstack-разработчик с фокусом на Backend (TypeScript/Node.js), 3+ года коммерческого опыта',
+    description:
+      'Fullstack-разработчик с фокусом на Backend (TypeScript/Node.js), 3+ года коммерческого опыта',
   };
 
   const profile = await prisma.profile.upsert({

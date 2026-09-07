@@ -8,6 +8,12 @@ export class ProfileService {
   async getProfile() {
     return this.prisma.profile.findFirst({
       where: { id: 1 },
+      include: {
+        links: true,
+        skills: true,
+        experience: true,
+        projects: true,
+      },
     });
   }
 }
